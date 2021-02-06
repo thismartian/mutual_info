@@ -71,8 +71,11 @@ def entropy(X, k=1):
 
     # Distance to kth nearest neighbor
     r = nearest_distances(X, k)  # squared distances
-    n, d = X.shape
-    volume_unit_ball = get_volume_unit_ball(d)
+    n, dim = X.shape
+    cd = 1
+    for d in range(1,dim+1):
+        cd = cd * (pi**(d/2)/gamma(d/2 +1)/2**d)
+        
     """
     F. Perez-Cruz, (2008). Estimation of Information Theoretic Measures
     for Continuous Random Variables. Advances in Neural Information
@@ -80,7 +83,7 @@ def entropy(X, k=1):
 
     return d*mean(log(r))+log(volume_unit_ball)+log(n-1)-log(k)
     """
-    return d * np.mean(np.log(r + np.finfo(X.dtype).eps)) + np.log(volume_unit_ball) + psi(n) - psi(k)
+    return dim * np.mean(np.log(2*r + np.finfo(X.dtype).eps)) + np.log(cd) + psi(n) - psi(k)
 
 
 @lru_cache
