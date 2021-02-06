@@ -86,14 +86,6 @@ def entropy(X, k=1):
     return dim * np.mean(np.log(2*r + np.finfo(X.dtype).eps)) + np.log(cd) + psi(n) - psi(k)
 
 
-@lru_cache
-def get_volume_unit_ball(d):
-    volume_unit_ball = 1
-    for dim in range(1, d + 1):
-        volume_unit_ball = volume_unit_ball * (pi ** (dim / 2) / gamma(dim / 2 + 1) / 2 ** dim)
-    return volume_unit_ball
-
-
 def mutual_information(variables, k=1):
     """
     Returns the mutual information between any number of variables.
